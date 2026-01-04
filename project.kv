@@ -2,11 +2,10 @@
 
 WindowManager:
     MainWindow:
-    anime:
-    studio:
+    book:
+    publisher:
     years:
     genre:
-    yearly:
 
 <GridLayout>:
     spacing: 10
@@ -38,17 +37,17 @@ WindowManager:
 
 
         Button:
-            text: "Anime"
+            text: "Knjige"
             on_release:
                 root.table_a()
-                app.root.current = "anime"
+                app.root.current = "book"
                 root.manager.transition.direction = "left"
 
         Button:
-            text: "Studio"
+            text: "Izdavači"
             on_release:
                 root.table_s()
-                app.root.current = "studio"
+                app.root.current = "publisher"
                 root.manager.transition.direction = "left"
 
         Button:
@@ -66,24 +65,18 @@ WindowManager:
                 root.manager.transition.direction = "left"
 
         Button:
-            text: "Po godinama"
-            on_release:
-                app.root.current = "yearly"
-                root.manager.transition.direction = "left"
-
-        Button:
             text: "Exit"
             on_release:
                 app.stop()
                 root.closure()
 
-<anime>:
+<book>:
     canvas.before:
         Rectangle:
             pos: self.pos
             size: self.size
             source: 'anime.jpg'
-    name: "anime"
+    name: "book"
 
 
     GridLayout:
@@ -94,7 +87,7 @@ WindowManager:
             orientation: 'vertical'
             spacing: 0.01
             cols: 1
-            on_kv_post: root.lily(Scroll, ime, og, studio, genre, godina)
+            on_kv_post: root.lily(Scroll, ime, og, publisher, genre, godina)
 
         GridLayout:
             cols: 1
@@ -118,10 +111,10 @@ WindowManager:
                     id: og
 
                 Label:
-                    text: "Studio"
+                    text: "Izdavač"
 
                 TextInput:
-                    id: studio
+                    id: publisher
 
                 Label:
                     text: "Žanr"
@@ -143,18 +136,18 @@ WindowManager:
                 Button:
                     text: "Novi"
                     on_release:
-                        root.new([ime.text, og.text, studio.text, genre.text, godina.text])
+                        root.new([ime.text, og.text, publisher.text, genre.text, godina.text])
                         Scroll.clear_widgets()
-                        root.lily(Scroll, ime, og, studio, genre, godina)
+                        root.lily(Scroll, ime, og, publisher, genre, godina)
 
 
 
                 Button:
                     text: "Spremi"
                     on_release:
-                        root.edit([ime.text, og.text, studio.text, genre.text, godina.text])
+                        root.edit([ime.text, og.text, publisher.text, genre.text, godina.text])
                         Scroll.clear_widgets()
-                        root.lily(Scroll, ime, og, studio, genre, godina)
+                        root.lily(Scroll, ime, og, publisher, genre, godina)
 
 
                 Button:
@@ -162,7 +155,7 @@ WindowManager:
                     on_release:
                         root.deletion()
                         Scroll.clear_widgets()
-                        root.lily(Scroll, ime, og, studio, genre, godina)
+                        root.lily(Scroll, ime, og, publisher, genre, godina)
 
 
                 Button:
@@ -172,13 +165,13 @@ WindowManager:
                         root.manager.transition.direction = "right"
 
 
-<studio>:
+<publisher>:
     canvas.before:
         Rectangle:
             pos: self.pos
             size: self.size
             source: 'studio.jpg'
-    name: "studio"
+    name: "publisher"
 
     GridLayout:
         cols: 2
@@ -190,7 +183,7 @@ WindowManager:
             cols: 1
             on_kv_post:
                 Scroll.clear_widgets()
-                root.lily(Scroll, studio, godina)
+                root.lily(Scroll, publisher, godina)
 
         GridLayout:
             cols: 1
@@ -201,10 +194,10 @@ WindowManager:
                 rows: 3
 
                 Label:
-                    text: "Studio"
+                    text: "Izdavač"
 
                 TextInput:
-                    id: studio
+                    id: publisher
 
                 Label:
                     text: "Godina osnivanja"
@@ -220,17 +213,17 @@ WindowManager:
                 Button:
                     text: "Novi"
                     on_release:
-                        root.new([studio.text, godina.text])
+                        root.new([publisher.text, godina.text])
                         Scroll.clear_widgets()
-                        root.lily(Scroll, studio, godina)
+                        root.lily(Scroll, publisher, godina)
 
 
                 Button:
                     text: "Spremi"
                     on_release:
-                        root.edit([studio.text, godina.text])
+                        root.edit([publisher.text, godina.text])
                         Scroll.clear_widgets()
-                        root.lily(Scroll, studio, godina)
+                        root.lily(Scroll, publisher, godina)
 
 
                 Button:
@@ -238,7 +231,7 @@ WindowManager:
                     on_release:
                         root.deletion()
                         Scroll.clear_widgets()
-                        root.lily(Scroll, studio, godina)
+                        root.lily(Scroll, publisher, godina)
 
 
                 Button:
@@ -298,7 +291,6 @@ WindowManager:
                         Scroll.clear_widgets()
                         root.lily(Scroll, godina)
 
-
                 Button:
                     text: "Povratak"
                     on_release:
@@ -356,85 +348,8 @@ WindowManager:
                         Scroll.clear_widgets()
                         root.lily(Scroll, genre)
 
-
                 Button:
                     text: "Povratak"
                     on_release:
                         app.root.current = "menu"
                         root.manager.transition.direction = "right"
-
-<yearly>:
-    canvas.before:
-        Rectangle:
-            pos: self.pos
-            size: self.size
-            source: 'yearly.jpg'
-    name: "yearly"
-
-    GridLayout:
-        cols: 4
-        on_kv_post: root.mem([Scroll2, Scroll3])
-
-        GridLayout:
-            cols: 1
-            rows: 2
-
-            GridLayout:
-                cols: 1
-                rows: 3
-                Button:
-                    text: "Studio"
-                    on_release:
-                        Scroll1.clear_widgets()
-                        root.s_lily(Scroll1)
-                Button:
-                    text: "Žanrovi"
-                    on_release:
-                        Scroll1.clear_widgets()
-                        root.g_lily(Scroll1)
-                Button:
-                    text: "Godine"
-                    on_release:
-                        Scroll1.clear_widgets()
-                        root.y_lily(Scroll1)
-
-            BoxLayout:
-                id: Scroll1
-                orientation: 'vertical'
-                spacing: 0.01
-                cols: 1
-                on_kv_post:
-                    Scroll1.clear_widgets()
-                    root.s_lily(Scroll1)
-
-        BoxLayout:
-            id: Scroll2
-            orientation: 'vertical'
-            spacing: 0.01
-            cols: 1
-            #on_kv_post:
-            #    root.st_lily(Scroll2)
-
-        GridLayout:
-            cols: 1
-            rows: 3
-
-            Button:
-                text: "Dodaj u najdraže"
-
-
-            Button:
-                text: "Makni iz najdražih"
-
-            Button:
-                text: "Povratak"
-                on_release:
-                    app.root.current = "menu"
-                    root.manager.transition.direction = "right"
-
-        BoxLayout:
-            id: Scroll3
-            orientation: 'vertical'
-            spacing: 0.01
-            cols: 1
-            #on_kv_post: root.lily(Scroll3)
