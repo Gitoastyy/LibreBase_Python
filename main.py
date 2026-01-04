@@ -36,7 +36,6 @@ class MainWindow(Screen):
         print("aaa")
 
 
-
 class book(Screen):
 
     def new(self, x):
