@@ -19,10 +19,10 @@ class MainWindow(Screen):
     def closure(self):
         conn.close()
 
-    def table_a(self):
+    def table_b(self):
         cur.execute("CREATE TABLE IF NOT EXISTS book(name text primary key not null, original text not null, publisher text not null, genre text not null, year text not null, favorite text not null)")
 
-    def table_s(self):
+    def table_p(self):
         cur.execute("CREATE TABLE IF NOT EXISTS publisher(name text primary key not null, founded text, favorite text not null)")
 
     def table_y(self):
@@ -252,7 +252,7 @@ kv = Builder.load_file("project.kv")
 
 class ProjectApp(App):
     def build(self):
-        self.title = "DataBase"
+        self.title = "LibreBase"
         return kv
 
 
