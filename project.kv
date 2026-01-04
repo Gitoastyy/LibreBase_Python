@@ -6,7 +6,6 @@ WindowManager:
     studio:
     years:
     genre:
-    yearly:
 
 <GridLayout>:
     spacing: 10
@@ -63,12 +62,6 @@ WindowManager:
             on_release:
                 root.table_g()
                 app.root.current = "genre"
-                root.manager.transition.direction = "left"
-
-        Button:
-            text: "Po godinama"
-            on_release:
-                app.root.current = "yearly"
                 root.manager.transition.direction = "left"
 
         Button:
