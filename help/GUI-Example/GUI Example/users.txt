@@ -1,2 +1,0 @@
-tim@gmail.com;1234;tim;2019-03-02
-nigg@gmail.com;mcniggs;nigg;2023-04-01
