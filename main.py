@@ -20,16 +20,16 @@ class MainWindow(Screen):
         conn.close()
 
     def table_b(self):
-        cur.execute("CREATE TABLE IF NOT EXISTS book(name text primary key not null, original text not null, publisher text not null, genre text not null, year text not null, favorite text not null)")
+        cur.execute("CREATE TABLE IF NOT EXISTS book(name text primary key not null, original text not null, publisher text not null, genre text not null, year text not null)")
 
     def table_p(self):
-        cur.execute("CREATE TABLE IF NOT EXISTS publisher(name text primary key not null, founded text, favorite text not null)")
+        cur.execute("CREATE TABLE IF NOT EXISTS publisher(name text primary key not null, founded text)")
 
     def table_y(self):
-        cur.execute("CREATE TABLE IF NOT EXISTS years(year text primary key not null, favorite text not null)")
+        cur.execute("CREATE TABLE IF NOT EXISTS years(year text primary key not null)")
 
     def table_g(self):
-        cur.execute("CREATE TABLE IF NOT EXISTS genres(genre text primary key not null, favorite text not null)")
+        cur.execute("CREATE TABLE IF NOT EXISTS genres(genre text primary key not null)")
 
     def select(self, x):
         MainWindow.selector = x
@@ -42,8 +42,8 @@ class book(Screen):
     def new(self, x):
         x.append("no")
         try:
-            cur.execute("INSERT INTO book VALUES (:name, :original, :publisher, :genre, :year, :favorite)",
-                        {"name": x[0], "original": x[1], "publisher": x[2], "genre": x[3], "year": x[4], "favorite": x[5]})
+            cur.execute("INSERT INTO book VALUES (:name, :original, :publisher, :genre, :year)",
+                        {"name": x[0], "original": x[1], "publisher": x[2], "genre": x[3], "year": x[4]})
             conn.commit()
 
             existor = []
@@ -126,8 +126,8 @@ class publisher(Screen):
     def new(self, x):
         x.append("no")
         try:
-            cur.execute("INSERT INTO publisher VALUES (:name, :founded, :favorite)",
-                        {"name": x[0], "founded": x[1], "favorite": x[2]})
+            cur.execute("INSERT INTO publisher VALUES (:name, :founded)",
+                        {"name": x[0], "founded": x[1]})
             conn.commit()
 
         except:
@@ -173,8 +173,8 @@ class years(Screen):
     def new(self, x):
         x.append("no")
         try:
-            cur.execute("INSERT INTO years VALUES(:year, :favorite)",
-                        {"year": x[0], "favorite": x[1]})
+            cur.execute("INSERT INTO years VALUES(:year)",
+                        {"year": x[0]})
             conn.commit()
 
         except:
@@ -211,8 +211,8 @@ class genre(Screen):
     def new(self, x):
         x.append("no")
         try:
-            cur.execute("INSERT INTO genres VALUES(:genre, :favorite)",
-                        {"genre": x[0], "favorite": x[1]})
+            cur.execute("INSERT INTO genres VALUES(:genre)",
+                        {"genre": x[0]})
             conn.commit()
 
         except:
