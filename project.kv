@@ -28,7 +28,7 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'menu.jpg'
+            source: 'resources/images/mainMenuLibrary.jpg'
     name: "menu"
 
     GridLayout:
@@ -39,14 +39,14 @@ WindowManager:
         Button:
             text: "Knjige"
             on_release:
-                root.table_a()
+                root.table_b()
                 app.root.current = "book"
                 root.manager.transition.direction = "left"
 
         Button:
             text: "Izdavači"
             on_release:
-                root.table_s()
+                root.table_p()
                 app.root.current = "publisher"
                 root.manager.transition.direction = "left"
 
@@ -75,7 +75,7 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'anime.jpg'
+            source: 'resources/images/booksEdit.jpg'
     name: "book"
 
 
@@ -170,7 +170,7 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'studio.jpg'
+            source: 'resources/images/publisherEdit.jpeg'
     name: "publisher"
 
     GridLayout:
@@ -245,7 +245,7 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'year.jpg'
+            source: 'resources/images/yearsEdit.png'
     name: "years"
 
     GridLayout:
@@ -302,7 +302,7 @@ WindowManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'genre.jpg'
+            source: 'resources/images/genreEdit.jpg'
     name: "genre"
 
     GridLayout:
