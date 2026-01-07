@@ -4,6 +4,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 import sqlite3
+import library
 kivy.require('2.1.0')
 
 try:
@@ -38,6 +39,10 @@ class MainWindow(Screen):
 
 
 class book(Screen):
+
+    def test(self):
+        if library.provjera("book") == False:
+            print("Tablica je prazna!")
 
     def new(self, x):
         x.append("no")
@@ -97,6 +102,7 @@ class book(Screen):
             pass
 
     def lily(self, x, y, z, a, b, c):
+        self.test()
         y.text = ""
         z.text = ""
         a.text = ""
@@ -122,6 +128,10 @@ class book(Screen):
 
 
 class publisher(Screen):
+
+    def test(self):
+        if library.provjera("publisher") == False:
+            print("Tablica je prazna!")
 
     def new(self, x):
         x.append("no")
@@ -169,6 +179,9 @@ class publisher(Screen):
 
 
 class years(Screen):
+    def test(self):
+        if library.provjera("years") == False:
+            print("Tablica je prazna!")
 
     def new(self, x):
         x.append("no")
@@ -207,6 +220,9 @@ class years(Screen):
 
 
 class genre(Screen):
+    def test(self):
+        if library.provjera("genres") == False:
+            print("Tablica je prazna!")
 
     def new(self, x):
         x.append("no")
