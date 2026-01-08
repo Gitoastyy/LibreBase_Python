@@ -20,99 +20,98 @@ class MainWindow(Screen):
     def closure(self):
         conn.close()
 
-    def table_b(self):
+    def tableBook(self):
         cur.execute("CREATE TABLE IF NOT EXISTS book(name text primary key not null, original text not null, publisher text not null, genre text not null, year text not null)")
 
-    def table_p(self):
+    def tablePublisher(self):
         cur.execute("CREATE TABLE IF NOT EXISTS publisher(name text primary key not null, founded text)")
 
-    def table_y(self):
+    def tableYear(self):
         cur.execute("CREATE TABLE IF NOT EXISTS years(year text primary key not null)")
 
-    def table_g(self):
+    def tableGenre(self):
         cur.execute("CREATE TABLE IF NOT EXISTS genres(genre text primary key not null)")
 
-    def select(self, x):
-        MainWindow.selector = x
-        print("aaa")
-
+    def select(self, item):
+        MainWindow.selector = item
 
 
 class book(Screen):
-
-    def test(self):
-        if library.provjera("book") == False:
-            print("Tablica je prazna!")
-
-    def new(self, x):
-        x.append("no")
+    def new(self, values):
         try:
             cur.execute("INSERT INTO book VALUES (:name, :original, :publisher, :genre, :year)",
-                        {"name": x[0], "original": x[1], "publisher": x[2], "genre": x[3], "year": x[4]})
+                        {"name": values[0], "original": values[1], "publisher": values[2], "genre": values[3], "year": values[4]})
             conn.commit()
 
             existor = []
+            check = False
 
             for i in cur.execute("select * from publisher"):
-                if str(i[0]) == str(x[2]):
-                    pass
-                else:
-                    existor.append(0)
+                if not check:
+                    if str(i[0]) == str(values[2]):
+                        pass
+                    else:
+                        existor.append(values[2])
+                        check = True
 
-            if len(existor) == len(list(cur.execute("select * from publisher"))):
-                publisher.new(None, (str(x[2]), "69"))
+            if check:
+                publisher.new(None, (str(values[2]), "69"))
 
             existor = []
+            check = False
 
             for i in cur.execute("select * from genres"):
-                if str(i[0]) == str(x[3]):
-                    pass
-                else:
-                    existor.append(0)
+                if not check:
+                    if str(i[0]) == str(values[3]):
+                        pass
+                    else:
+                        existor.append(values[3])
+                        check = True
 
-            if len(existor) == len(list(cur.execute("select * from genres"))):
-                genre.new(None, (str(x[3])))
+            if check:
+                genre.new(None, (str(values[3])))
 
             existor = []
+            check = False
 
             for i in cur.execute("select * from years"):
-                if str(i[0]) == str(x[4]):
-                    pass
-                else:
-                    existor.append(0)
+                if not check:
+                    if str(i[0]) == str(values[4]):
+                        pass
+                    else:
+                        existor.append(values[4])
+                        check = True
 
-            if len(existor) == len(list(cur.execute("select * from years"))):
-                years.new(None, (str(x[4])))
-
+            if check:
+                years.new(None, (str(values[4])))
 
         except:
             print("no values")
 
-    def butts(self):
+    def buttons(self):
         try:
-            lis = cur.execute("SELECT * FROM book")
-            l = []
-            for i in lis:
-                l.append(list(i))
+            results = cur.execute("SELECT * FROM book")
+            itemList = []
+            for i in results:
+                itemList.append(list(i))
 
-            for i in l:
-                z = Button(text=f'{str(i[0])} ({str(i[1])})', on_press=lambda x, j=i: MainWindow.select(None, j[0]))
-                yield z
+            for i in itemList:
+                button = Button(text=f'{str(i[0])} ({str(i[1])})', on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
         except:
             pass
 
-    def lily(self, x, y, z, a, b, c):
-        self.test()
-        y.text = ""
-        z.text = ""
-        a.text = ""
-        b.text = ""
-        c.text = ""
-        return [x.add_widget(i) for i in self.butts()]
+    def createListView(self, listView, name, originalName, publisher, genre, year):
+        name.text = ""
+        originalName.text = ""
+        publisher.text = ""
+        genre.text = ""
+        year.text = ""
+        return [listView.add_widget(i) for i in self.buttons()]
 
-    def edit(self, x):
+    def edit(self, values):
         cur.execute("update book set original = :original, publisher = :publisher, genre = :genre, year = :year where name = :name",
-                    {"name": x[0], "original": x[1], "publisher": x[2], "genre": x[3], "year": x[4]})
+                    {"name": values[0], "original": values[1], "publisher": values[2], "genre": values[3], "year": values[4]})
         conn.commit()
 
     def deletion(self):
@@ -123,47 +122,54 @@ class book(Screen):
         except:
             print('Red je već obrisan.')
 
-    def err(self):
-        print("something went to shit")
+    def error(self):
+        print("something went wrong")
 
 
 class publisher(Screen):
-
-    def test(self):
-        if library.provjera("publisher") == False:
-            print("Tablica je prazna!")
-
-    def new(self, x):
-        x.append("no")
+    def new(self, values):
         try:
             cur.execute("INSERT INTO publisher VALUES (:name, :founded)",
-                        {"name": x[0], "founded": x[1]})
+                        {"name": values[0], "founded": values[1]})
             conn.commit()
 
+            existor = []
+            check = False
+
+            for i in cur.execute("select * from years"):
+                if not check:
+                    if str(i[0]) == str(values[1]):
+                        pass
+                    else:
+                        existor.append(values[1])
+                        check = True
+
+            if check:
+                years.new(None, (str(values[1])))
         except:
             print("no values")
 
-    def butts(self):
+    def buttons(self):
         try:
-            lis = cur.execute("SELECT * FROM publisher")
-            l = []
-            for i in lis:
-                l.append(list(i))
+            items = cur.execute("SELECT * FROM publisher")
+            listView = []
+            for i in items:
+                listView.append(list(i))
 
-                z = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
-                yield z
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
         except:
             pass
 
-    def lily(self, x, y, z):
-        y.text = ""
-        z.text = ""
-        return [x.add_widget(i) for i in self.butts()]
+    def createListView(self, scrollView, name, year):
+        name.text = ""
+        year.text = ""
+        return [scrollView.add_widget(i) for i in self.buttons()]
 
-    def edit(self, x):
+    def edit(self, values):
         cur.execute(
             "update publisher set founded = :founded where name = :name",
-            {"name": x[0], "founded": x[1]})
+            {"name": values[0], "founded": values[1]})
         conn.commit()
 
     def deletion(self):
@@ -174,41 +180,36 @@ class publisher(Screen):
         except:
             print('Red je već obrisan.')
 
-    def err(self):
+    def error(self):
         print("something went to shit")
 
 
 class years(Screen):
-    def test(self):
-        if library.provjera("years") == False:
-            print("Tablica je prazna!")
-
-    def new(self, x):
-        x.append("no")
+    def new(self, values):
         try:
             cur.execute("INSERT INTO years VALUES(:year)",
-                        {"year": x[0]})
+                        {"year": values[0]})
             conn.commit()
 
         except:
             print("no values")
 
-    def butts(self):
+    def buttons(self):
         try:
-            lis = cur.execute("SELECT * FROM years")
-            l = []
-            for i in lis:
-                l.append(list(i))
+            items = cur.execute("SELECT * FROM years")
+            listView = []
+            for i in items:
+                listView.append(list(i))
 
-            for i in l:
-                z = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
-                yield z
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
         except:
             pass
 
-    def lily(self, x, y):
-        y.text = ""
-        return [x.add_widget(i) for i in self.butts()]
+    def createListView(self, scrollView, years):
+        years.text = ""
+        return [scrollView.add_widget(i) for i in self.buttons()]
 
     def deletion(self):
         try:
@@ -220,37 +221,32 @@ class years(Screen):
 
 
 class genre(Screen):
-    def test(self):
-        if library.provjera("genres") == False:
-            print("Tablica je prazna!")
-
-    def new(self, x):
-        x.append("no")
+    def new(self, value):
         try:
             cur.execute("INSERT INTO genres VALUES(:genre)",
-                        {"genre": x[0]})
+                        {"genre": value[0]})
             conn.commit()
 
         except:
             print("no values")
 
-    def butts(self):
+    def buttons(self):
         try:
-            lis = cur.execute("SELECT * FROM genres")
-            l = []
-            for i in lis:
-                l.append(list(i))
+            items = cur.execute("SELECT * FROM genres")
+            listView = []
+            for i in items:
+                listView.append(list(i))
 
-            for i in l:
-                z = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
-                yield z
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
         except:
             pass
 
-    def lily(self, x, y):
-        y.text = ""
+    def createListView(self, scrollView, items):
+        items.text = ""
 
-        return [x.add_widget(i) for i in self.butts()]
+        return [scrollView.add_widget(i) for i in self.buttons()]
 
     def deletion(self):
         try:
@@ -261,10 +257,98 @@ class genre(Screen):
             print('Red je već obrisan.')
 
 
+class browseBook(Screen):
+    def buttons(self):
+        try:
+            items = cur.execute("SELECT * FROM book")
+            listView = []
+            for i in items:
+                listView.append(list(i))
+
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
+        except:
+            pass
+
+    def createListView(self, scrollView):
+        if library.provjera("book"):
+            return [scrollView.add_widget(i) for i in self.buttons()]
+        else:
+            return [scrollView.add_widget(Button(text=str("Tablica je prazna")))]
+
+
+class browsePublisher(Screen):
+    def buttons(self):
+        try:
+            items = cur.execute("SELECT * FROM publisher")
+            listView = []
+            for i in items:
+                listView.append(list(i))
+
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
+        except:
+            pass
+
+    def createListView(self, scrollView):
+        if library.provjera("publisher"):
+
+            return [scrollView.add_widget(i) for i in self.buttons()]
+        else:
+            return [scrollView.add_widget(Button(text=str("Tablica je prazna")))]
+
+
+class browseYear(Screen):
+    def buttons(self):
+        try:
+            items = cur.execute("SELECT * FROM years")
+            listView = []
+            for i in items:
+                listView.append(list(i))
+
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
+        except:
+            pass
+
+    def createListView(self, scrollView):
+        if library.provjera("years"):
+
+            return [scrollView.add_widget(i) for i in self.buttons()]
+        else:
+            return [scrollView.add_widget(Button(text=str("Tablica je prazna")))]
+
+
+class browseGenre(Screen):
+    def buttons(self):
+        try:
+            items = cur.execute("SELECT * FROM genres")
+            listView = []
+            for i in items:
+                listView.append(list(i))
+
+            for i in listView:
+                button = Button(text=str(i[0]), on_press=lambda x, j=i: MainWindow.select(None, j[0]))
+                yield button
+        except:
+            pass
+
+    def createListView(self, scrollView):
+        if library.provjera("genres"):
+
+            return [scrollView.add_widget(i) for i in self.buttons()]
+        else:
+            return [scrollView.add_widget(Button(text=str("Tablica je prazna")))]
+
 class WindowManager(ScreenManager):
     pass
 
+
 kv = Builder.load_file("project.kv")
+
 
 class ProjectApp(App):
     def build(self):
