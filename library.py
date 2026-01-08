@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def provjera(imeTablice):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -10,7 +11,3 @@ def provjera(imeTablice):
     else:
         conn.close()
         return False
-        
-    
-
-    
